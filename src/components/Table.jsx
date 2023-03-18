@@ -5,7 +5,24 @@ import PlanetLine from './PlanetLine';
 function Table() {
   const [planets, setPlanets] = useState([]);
   const [planetName, setPlanetName] = useState('');
-  const planetList = useContext(PlanetsContext);
+  const [numericFilter, setNumericFilter] = useState(0);
+  const [filterColumn, setFilterColumn] = useState('population');
+  const [filterComparison, setFilterComparison] = useState('maior que');
+  const { planetList } = useContext(PlanetsContext);
+
+  const filterBtnHandle = () => {
+    const comparisonObj = {
+      'maior que': (a, b) => a > b,
+      'menor que': (a, b) => a < b,
+      'igual a': (a, b) => a == b,
+    };
+
+    const comparison = comparisonObj[filterComparison];
+
+    const filter1 = planetList
+      .filter((planet) => comparison(Number(planet[filterColumn]), numericFilter));
+    setPlanets(filter1);
+  };
 
   useEffect(() => {
     const filteredPlanets = planetList
@@ -21,6 +38,47 @@ function Table() {
         value={ planetName }
         data-testid="name-filter"
       />
+      <label htmlFor="filter1">
+        Coluna:
+        <select
+          data-testid="column-filter"
+          id="filter1"
+          onChange={ ({ target }) => setFilterColumn(target.value) }
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+      </label>
+      <label htmlFor="filter2">
+        Operador:
+        <select
+          data-testid="comparison-filter"
+          id="filter2"
+          onChange={ ({ target }) => setFilterComparison(target.value) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+      </label>
+      <input
+        type="number"
+        name="numericFilter"
+        id="filter3"
+        data-testid="value-filter"
+        value={ numericFilter }
+        onChange={ ({ target }) => setNumericFilter(target.value) }
+      />
+      <button
+        type="button"
+        onClick={ filterBtnHandle }
+        data-testid="button-filter"
+      >
+        Filtrar
+      </button>
       <table>
         <thead>
           <tr>
@@ -49,7 +107,7 @@ function Table() {
               climate,
               gravity,
               terrain,
-              surfaceWater,
+              surface_water,
               population,
               films,
               created,
@@ -64,7 +122,7 @@ function Table() {
               climate={ climate }
               gravity={ gravity }
               terrain={ terrain }
-              surfaceWater={ surfaceWater }
+              surfaceWater={ surface_water }
               population={ population }
               films={ films }
               created={ created }

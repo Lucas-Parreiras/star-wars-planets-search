@@ -15,10 +15,9 @@ function PlanetLine({
   created,
   edited,
   url,
-  key,
 }) {
   return (
-    <tr key={ key }>
+    <tr>
       <td>{ name }</td>
       <td>{ rotationPeriod }</td>
       <td>{ orbitalPeriod }</td>
@@ -50,7 +49,6 @@ PlanetLine.propTypes = {
   surfaceWater: PropTypes.string.isRequired,
   terrain: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  key: PropTypes.string.isRequired,
 };
 
 export default PlanetLine;

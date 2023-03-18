@@ -4,18 +4,22 @@ import PlanetsContext from './PlanetsContext';
 import handleAPI from '../helpers/APIHandle';
 
 function ContextProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const [planetList, setPlanetList] = useState([]);
 
   useEffect(() => {
     const getPlanets = async () => {
       const planetsData = await handleAPI();
-      setPlanets(planetsData);
+      setPlanetList(planetsData);
     };
     getPlanets();
   }, []);
 
+  const context = {
+    planetList,
+  };
+
   return (
-    <PlanetsContext.Provider value={ planets }>
+    <PlanetsContext.Provider value={ context }>
       {children}
     </PlanetsContext.Provider>
   );
