@@ -2,7 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../hooks/PlanetsContext';
 import PlanetLine from './PlanetLine';
 
+const selectOptions = ['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
 function Table() {
+  const [availableOptions, setAvailableOptions] = useState(selectOptions);
   const [filteredList, setFilteredList] = useState([]);
   const [planetName, setPlanetName] = useState('');
   const [numericFilter, setNumericFilter] = useState(0);
@@ -20,6 +24,11 @@ function Table() {
     const comparison = comparisonObj[filterComparison];
 
     const listToFilter = (filteredList !== 0 ? filteredList : planetList);
+
+    const selectedOptionIndex = availableOptions
+      .findIndex((option) => option === filterColumn);
+    availableOptions.splice(selectedOptionIndex, 1);
+    setAvailableOptions(availableOptions);
 
     const filter1 = listToFilter
       .filter((planet) => comparison(Number(planet[filterColumn]), numericFilter));
@@ -47,11 +56,15 @@ function Table() {
           id="filter1"
           onChange={ ({ target }) => setFilterColumn(target.value) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            availableOptions
+              .map((option) => (<option
+                key={ option }
+                value={ option }
+              >
+                { option }
+              </option>))
+          }
         </select>
       </label>
       <label htmlFor="filter2">
