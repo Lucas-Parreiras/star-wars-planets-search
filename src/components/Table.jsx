@@ -1,12 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../hooks/PlanetsContext';
 import PlanetLine from './PlanetLine';
 
 function Table() {
-  const value = useContext(PlanetsContext);
+  const [planets, setPlanets] = useState([]);
+  const [planetName, setPlanetName] = useState('');
+  const planetList = useContext(PlanetsContext);
+
+  useEffect(() => {
+    const filteredPlanets = planetList
+      .filter(({ name }) => name.toLowerCase().includes(planetName));
+    setPlanets(filteredPlanets);
+  }, [planetName, planetList]);
 
   return (
     <div>
+      <input
+        type="text"
+        onChange={ ({ target: { value } }) => setPlanetName(value.toLowerCase()) }
+        value={ planetName }
+        data-testid="name-filter"
+      />
       <table>
         <thead>
           <tr>
@@ -27,7 +41,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            value.map(({
+            planets.map(({
               name,
               rotation_period,
               orbital_period,
