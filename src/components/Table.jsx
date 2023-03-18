@@ -3,7 +3,7 @@ import PlanetsContext from '../hooks/PlanetsContext';
 import PlanetLine from './PlanetLine';
 
 function Table() {
-  const [planets, setPlanets] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
   const [planetName, setPlanetName] = useState('');
   const [numericFilter, setNumericFilter] = useState(0);
   const [filterColumn, setFilterColumn] = useState('population');
@@ -19,15 +19,17 @@ function Table() {
 
     const comparison = comparisonObj[filterComparison];
 
-    const filter1 = planetList
+    const listToFilter = (filteredList !== 0 ? filteredList : planetList);
+
+    const filter1 = listToFilter
       .filter((planet) => comparison(Number(planet[filterColumn]), numericFilter));
-    setPlanets(filter1);
+    setFilteredList(filter1);
   };
 
   useEffect(() => {
     const filteredPlanets = planetList
       .filter(({ name }) => name.toLowerCase().includes(planetName));
-    setPlanets(filteredPlanets);
+    setFilteredList(filteredPlanets);
   }, [planetName, planetList]);
 
   return (
@@ -99,7 +101,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            planets.map(({
+            (filteredList.length !== 0 ? filteredList : planetList).map(({
               name,
               rotation_period,
               orbital_period,
