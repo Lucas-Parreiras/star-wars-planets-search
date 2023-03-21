@@ -18,7 +18,7 @@ function PlanetLine({
 }) {
   return (
     <tr>
-      <td>{ name }</td>
+      <td data-testid="planet-name">{ name }</td>
       <td>{ rotationPeriod }</td>
       <td>{ orbitalPeriod }</td>
       <td>{ diameter }</td>
@@ -40,7 +40,7 @@ PlanetLine.propTypes = {
   created: PropTypes.string.isRequired,
   diameter: PropTypes.string.isRequired,
   edited: PropTypes.string.isRequired,
-  films: PropTypes.string.isRequired,
+  films: PropTypes.arrayOf(PropTypes.string).isRequired,
   gravity: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   orbitalPeriod: PropTypes.string.isRequired,
