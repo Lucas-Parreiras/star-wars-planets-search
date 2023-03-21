@@ -32,16 +32,16 @@ function Table() {
 
     const listToFilter = filteredList;
 
-    const newOptions = availableOptions;
+    // const newOptions = availableOptions;
 
     const filter1 = listToFilter
       .filter((p) => comparison(Number(p[filterColumn]), Number(numericFilter)));
     setFilteredList(filter1);
 
-    const selectedOptionIndex = newOptions
-      .findIndex((option) => option === filterColumn);
-    newOptions.splice(selectedOptionIndex, 1);
-    setAvailableOptions(newOptions);
+    // const selectedOptionIndex = newOptions
+    //   .findIndex((option) => option === filterColumn);
+    // newOptions.splice(selectedOptionIndex, 1);
+    // setAvailableOptions(newOptions);
   };
 
   const orderBtnHandle = () => {
