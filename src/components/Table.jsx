@@ -11,7 +11,7 @@ const selectOptions = [
 ];
 
 function Table() {
-  const [availableOptions, setAvailableOptions] = useState(selectOptions);
+  const [availableOptions] = useState(selectOptions);
   const [columnToSort, setColumnToSort] = useState('population');
   const [sortDirection, setSortDirection] = useState('');
   const [filteredList, setFilteredList] = useState([]);
