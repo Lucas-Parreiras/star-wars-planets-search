@@ -25,7 +25,7 @@ function Table() {
     const comparisonObj = {
       'maior que': (a, b) => a > b,
       'menor que': (a, b) => a < b,
-      'igual a': (a, b) => a == b,
+      'igual a': (a, b) => a === b,
     };
 
     const comparison = comparisonObj[filterComparison];
@@ -38,7 +38,7 @@ function Table() {
     setAvailableOptions(availableOptions);
 
     const filter1 = listToFilter
-      .filter((planet) => comparison(Number(planet[filterColumn]), numericFilter));
+      .filter((p) => comparison(Number(p[filterColumn]), Number(numericFilter)));
     setFilteredList(filter1);
   };
 
@@ -185,36 +185,22 @@ function Table() {
         </thead>
         <tbody>
           {(filteredList.length !== 0 ? filteredList : planetList).map(
-            ({
-              name,
-              rotation_period,
-              orbital_period,
-              diameter,
-              climate,
-              gravity,
-              terrain,
-              surface_water,
-              population,
-              films,
-              created,
-              edited,
-              url,
-            }) => (
+            (list) => (
               <PlanetLine
-                key={ name }
-                name={ name }
-                rotationPeriod={ rotation_period }
-                orbitalPeriod={ orbital_period }
-                diameter={ diameter }
-                climate={ climate }
-                gravity={ gravity }
-                terrain={ terrain }
-                surfaceWater={ surface_water }
-                population={ population }
-                films={ films }
-                created={ created }
-                edited={ edited }
-                url={ url }
+                key={ list.name }
+                name={ list.name }
+                rotationPeriod={ list.rotation_period }
+                orbitalPeriod={ list.orbital_period }
+                diameter={ list.diameter }
+                climate={ list.climate }
+                gravity={ list.gravity }
+                terrain={ list.terrain }
+                surfaceWater={ list.surface_water }
+                population={ list.population }
+                films={ list.films }
+                created={ list.created }
+                edited={ list.edited }
+                url={ list.url }
               />
             ),
           )}
