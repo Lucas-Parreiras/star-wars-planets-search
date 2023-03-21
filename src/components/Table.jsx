@@ -19,6 +19,7 @@ function Table() {
   const [numericFilter, setNumericFilter] = useState(0);
   const [filterColumn, setFilterColumn] = useState('population');
   const [filterComparison, setFilterComparison] = useState('maior que');
+  const [activeFilters, setActiveFilters] = useState([]);
   const { planetList } = useContext(PlanetsContext);
 
   const filterBtnHandle = () => {
@@ -27,21 +28,21 @@ function Table() {
       'menor que': (a, b) => a < b,
       'igual a': (a, b) => a === b,
     };
-
     const comparison = comparisonObj[filterComparison];
-
     const listToFilter = filteredList;
-
-    // const newOptions = availableOptions;
-
     const filter1 = listToFilter
       .filter((p) => comparison(Number(p[filterColumn]), Number(numericFilter)));
     setFilteredList(filter1);
-
-    // const selectedOptionIndex = newOptions
-    //   .findIndex((option) => option === filterColumn);
-    // newOptions.splice(selectedOptionIndex, 1);
-    // setAvailableOptions(newOptions);
+    const obj = {
+      column: filterColumn,
+      comparison: filterComparison,
+      value: numericFilter,
+    };
+    activeFilters.push(obj);
+    setActiveFilters(activeFilters);
+    setFilterColumn('population');
+    setFilterComparison('maior que');
+    setNumericFilter(0);
   };
 
   const orderBtnHandle = () => {
@@ -74,7 +75,7 @@ function Table() {
     const filteredPlanets = planetList
       .filter(({ name }) => name.toLowerCase().includes(planetName));
     setFilteredList(filteredPlanets);
-  }, [planetName, planetList]);
+  }, [planetName, planetList, activeFilters, availableOptions]);
 
   return (
     <div>
@@ -91,11 +92,17 @@ function Table() {
           id="filter1"
           onChange={ ({ target }) => setFilterColumn(target.value) }
         >
-          {availableOptions.map((option) => (
-            <option key={ option } value={ option }>
-              {option}
-            </option>
-          ))}
+          {availableOptions.map((option) => {
+            const checking = activeFilters.some((e) => e.column === option);
+            if (checking) {
+              return;
+            }
+            return (
+              <option key={ option } value={ option }>
+                {option}
+              </option>
+            );
+          })}
         </select>
       </label>
       <label htmlFor="filter2">
