@@ -118,5 +118,15 @@ describe('Testes relativos a aplicação StarWars', () => {
     expect(planets2[2]).toHaveTextContent(/Dagobah/i);
     expect(planets2[4]).toHaveTextContent(/Coruscant/i);
     expect(planets2[9]).toHaveTextContent(/Bespin/i);
+
+    userEvent.selectOptions(columnToOrder, 'rotation_period');
+    userEvent.click(DESCBtn);
+    userEvent.click(sortBtn);
+
+    const planets3 = screen.getAllByTestId(PLANET);
+    expect(planets3[0]).toHaveTextContent(/Kamino/i);
+    expect(planets3[2]).toHaveTextContent(/Alderaan/i);
+    expect(planets3[4]).toHaveTextContent(/Yavin IV/i);
+    expect(planets3[9]).toHaveTextContent(/Bespin/i);
   });
 });

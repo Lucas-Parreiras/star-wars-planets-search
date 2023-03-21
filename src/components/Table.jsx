@@ -30,16 +30,18 @@ function Table() {
 
     const comparison = comparisonObj[filterComparison];
 
-    const listToFilter = filteredList !== 0 ? filteredList : planetList;
+    const listToFilter = filteredList;
 
-    const selectedOptionIndex = availableOptions
-      .findIndex((option) => option === filterColumn);
-    availableOptions.splice(selectedOptionIndex, 1);
-    setAvailableOptions(availableOptions);
+    const newOptions = availableOptions;
 
     const filter1 = listToFilter
       .filter((p) => comparison(Number(p[filterColumn]), Number(numericFilter)));
     setFilteredList(filter1);
+
+    const selectedOptionIndex = newOptions
+      .findIndex((option) => option === filterColumn);
+    newOptions.splice(selectedOptionIndex, 1);
+    setAvailableOptions(newOptions);
   };
 
   const orderBtnHandle = () => {
